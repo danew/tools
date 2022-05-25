@@ -1,0 +1,27 @@
+{
+  "name": "@daneo/tools",
+  "version": "1.0.0",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "type": "module",
+  "repository": "git@github.com:danew/tools.git",
+  "author": "Dane Wilson <git@danewilson.me>",
+  "license": "MIT",
+  "scripts": {
+    "prepack": "yarn clean && yarn build",
+    "gen": "node scripts/generate-index.js",
+    "build": "yarn gen && tsup src/index.ts --format esm,cjs --dts --external react",
+    "dev": "yarn gen && tsup src/index.ts --format esm,cjs --watch --dts --external react",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.5",
+    "fast-glob": "^3.2.11",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "tsup": "^5.12.8",
+    "typescript": "^4.7.2"
+  }
+}
