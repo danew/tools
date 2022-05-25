@@ -2,6 +2,9 @@ name: Release
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
@@ -11,10 +14,29 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v2
+
+      - uses: butlerlogic/action-autotag@stable
+        id: update_tag
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          tag_prefix: "v"
+
+      - uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.autotagger.outputs.tagname }}
+          release_name: ${{ steps.autotagger.outputs.tagname }}
+          body: ${{ steps.autotagger.outputs.tagmessage }}
+          draft: false
+          prerelease: ${{ steps.autotagger.outputs.prerelease == 'yes' }}
+
       - uses: actions/setup-node@v2
+        if: steps.autotagger.outputs.tagcreated == 'yes'
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org
+
       - run: yarn install --frozen-lockfile
       - run: yarn publish
         env:
