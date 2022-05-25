@@ -1,5 +1,4 @@
-import type { MutableRefObject } from "react";
-import { useEffect } from "react";
+import { useEffect, MutableRefObject } from "react";
 
 const config: MutationObserverInit = {
   attributes: true,

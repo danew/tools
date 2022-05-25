@@ -11,8 +11,8 @@
   "scripts": {
     "prepack": "yarn clean && yarn build",
     "gen": "node scripts/generate-index.js",
-    "build": "yarn gen && tsup src/index.ts --format esm,cjs --dts --external react",
-    "dev": "yarn gen && tsup src/index.ts --format esm,cjs --watch --dts --external react",
+    "build": "yarn gen && tsup src/index.ts --format esm,cjs --dts --external react --external react-dom",
+    "dev": "yarn gen && tsup src/index.ts --format esm,cjs --watch --dts --external react --external react-dom",
     "clean": "rm -rf dist"
   },
   "devDependencies": {
@@ -23,6 +23,10 @@
     "react-dom": "^18.1.0",
     "tsup": "^5.12.8",
     "typescript": "^4.7.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
   },
   "files": [
     "dist/**/*",

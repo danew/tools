@@ -1,5 +1,4 @@
-import type { MutableRefObject } from 'react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, MutableRefObject } from 'react';
 import { useDidMount } from './useDidMount';
 import { useMutationObserver } from './useMutationObserver';
 
