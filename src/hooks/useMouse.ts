@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type MouseData = {
   x: number | null;
@@ -61,19 +61,17 @@ function getMousePositionFromEvent(e: MouseEvent): MouseData {
 }
 
 export function useMouse(): MouseData {
-  const [mousePosition, setMousePostition] = useState<MouseData>(
-    initialMouseState
-  );
+  const [mousePosition, setMousePostition] = useState<MouseData>(initialMouseState);
 
   function updateMousePosition(e: MouseEvent) {
     setMousePostition(getMousePositionFromEvent(e));
   }
 
   useEffect(() => {
-    document.addEventListener("mousemove", updateMousePosition);
+    document.addEventListener('mousemove', updateMousePosition);
 
     return () => {
-      document.removeEventListener("mousemove", updateMousePosition);
+      document.removeEventListener('mousemove', updateMousePosition);
     };
   }, []);
 

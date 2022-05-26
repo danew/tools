@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export function useReducedMotion() {
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -7,19 +7,19 @@ export function useReducedMotion() {
     if (typeof window === 'undefined') {
       return;
     }
-    
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     function queryCnangeHandler(event: MediaQueryListEvent) {
       setReducedMotion(event.matches);
     }
-  
-    if(mediaQuery) {
+
+    if (mediaQuery) {
       setReducedMotion(mediaQuery.matches);
-      mediaQuery.addEventListener("change", queryCnangeHandler);
-      return () => mediaQuery.removeEventListener("change", queryCnangeHandler);
+      mediaQuery.addEventListener('change', queryCnangeHandler);
+      return () => mediaQuery.removeEventListener('change', queryCnangeHandler);
     }
   }, []);
 
   return reducedMotion;
-};
+}

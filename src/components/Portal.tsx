@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { createPortal } from "react-dom";
-import { useForceUpdate } from "../hooks/useForceUpdate";
-import { useIsomorphicEffect } from "../hooks/useIsomorphicEffect";
+import { createPortal } from 'react-dom';
+import { useForceUpdate } from '../hooks/useForceUpdate';
+import { useIsomorphicEffect } from '../hooks/useIsomorphicEffect';
 
 interface PortalProps {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export function Portal({ children, containerRef }: PortalProps) {
     if (!mountNode.current) return;
     let ownerDocument = mountNode.current!.ownerDocument;
     let body = containerRef?.current || ownerDocument.body;
-    portalNode.current = ownerDocument?.createElement("react-portal")!;
+    portalNode.current = ownerDocument?.createElement('react-portal')!;
     body.appendChild(portalNode.current);
     forceUpdate();
     return () => {
@@ -27,9 +27,5 @@ export function Portal({ children, containerRef }: PortalProps) {
     };
   }, [forceUpdate, containerRef]);
 
-  return portalNode.current ? (
-    createPortal(children, portalNode.current)
-  ) : (
-    <span ref={mountNode} />
-  );
-};
+  return portalNode.current ? createPortal(children, portalNode.current) : <span ref={mountNode} />;
+}

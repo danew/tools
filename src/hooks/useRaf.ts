@@ -15,7 +15,7 @@ export function useRaf(callback: RafCallback, isActive: boolean = true): void {
     function tick(time: number) {
       animationFrame = requestAnimationFrame(tick);
       if (typeof savedCallback.current === 'function') {
-        savedCallback.current?.(time)
+        savedCallback.current?.(time);
       }
     }
 

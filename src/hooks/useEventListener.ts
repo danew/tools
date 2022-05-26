@@ -18,7 +18,7 @@ export const useEventListener = ({
   type,
   listener,
   element = typeof window === 'undefined' ? undefined : window,
-  options
+  options,
 }: UseEventListener): void => {
   const savedListener = useRef<EventListener>();
 
