@@ -35,8 +35,8 @@
     "react-dom": ">=16.4"
   },
   "files": [
-    "dist/**/*",
-    "src/**/*"
+    "dist",
+    "src"
   ],
   "size-limit": [
     {

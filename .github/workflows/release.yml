@@ -20,6 +20,6 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - uses: bahmutov/npm-install@v1
-      - run: yarn publish  --access public
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
