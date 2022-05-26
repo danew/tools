@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { createPortal } from "react-dom";
 import { useForceUpdate } from "../hooks/useForceUpdate";
 import { useIsomorphicEffect } from "../hooks/useIsomorphicEffect";

@@ -1,5 +1,6 @@
 {
-  "extends": "./config/react-library.json",
-  "include": ["src"],
-  "exclude": ["dist", "build", "node_modules"]
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react-jsx"
+  }
 }
