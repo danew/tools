@@ -1,6 +1,6 @@
 {
   "name": "@daneo/tools",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "module": "dist/tools.esm.js",
   "typings": "dist/index.d.ts",
@@ -35,8 +35,8 @@
     "react-dom": ">=16.4"
   },
   "files": [
-    "dist",
-    "src"
+    "dist/**/*",
+    "src/**/*"
   ],
   "size-limit": [
     {
