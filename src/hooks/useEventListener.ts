@@ -1,65 +1,38 @@
-import { RefObject, useEffect, useRef } from 'react'
+import { useRef, useEffect, useCallback, RefObject } from 'react';
 
-import { useIsomorphicEffect } from './useIsomorphicEffect'
-
-type ElementType = HTMLElement | Document;
-
-function unwrap(value: unknown) {
-  if (value && typeof value === 'object' && 'current' in value) {
-    return (value as any).current;
-  } else {
-    return value;
+function getRefElement<T>(element?: RefObject<Element> | T): Element | T | undefined | null {
+  if (element && 'current' in element) {
+    return element.current;
   }
+  return element;
 }
 
-export function useEventListener<K extends keyof WindowEventMap>(
-  eventName: K,
-  handler: (event: WindowEventMap[K]) => void,
-): void
+interface UseEventListener {
+  type: keyof WindowEventMap;
+  listener: EventListener;
+  element?: RefObject<Element> | Document | Window | null;
+  options?: AddEventListenerOptions;
+}
 
-export function useEventListener<
-  K extends keyof HTMLElementEventMap,
-  T extends ElementType = HTMLDivElement,
->(
-  eventName: K,
-  handler: (event: HTMLElementEventMap[K]) => void,
-  element: RefObject<T>,
-): void
-
-export function useEventListener<
-  KW extends keyof WindowEventMap,
-  KH extends keyof HTMLElementEventMap,
-  T extends ElementType | void = void,
->(
-  eventName: KW | KH,
-  handler: (
-    event: WindowEventMap[KW] | HTMLElementEventMap[KH] | Event,
-  ) => void,
-  element?: T extends HTMLElement ? RefObject<T> : Document,
-) {
-  // Create a ref that stores handler
-  const savedHandler = useRef(handler)
-
-  useIsomorphicEffect(() => {
-    savedHandler.current = handler
-  }, [handler])
+export const useEventListener = ({
+  type,
+  listener,
+  element = typeof window === 'undefined' ? undefined : window,
+  options
+}: UseEventListener): void => {
+  const savedListener = useRef<EventListener>();
 
   useEffect(() => {
-    // Define the listening target
-    const targetElement: T | Window = unwrap(element) ?? element ?? window
-    if (!(targetElement && targetElement.addEventListener)) {
-      return
-    }
+    savedListener.current = listener;
+  }, [listener]);
 
-    // Create event listener that calls handler function stored in ref
-    const eventListener: typeof handler = event => savedHandler.current(event)
+  const handleEventListener = useCallback((event: Event) => {
+    savedListener.current?.(event);
+  }, []);
 
-    targetElement.addEventListener(eventName, eventListener)
-
-    // Remove event listener on cleanup
-    return () => {
-      targetElement.removeEventListener(eventName, eventListener)
-    }
-  }, [eventName, element])
-}
-
+  useEffect(() => {
+    const target = getRefElement(element);
+    target?.addEventListener(type, handleEventListener, options);
+    return () => target?.removeEventListener(type, handleEventListener);
+  }, [type, element, options, handleEventListener]);
+};
